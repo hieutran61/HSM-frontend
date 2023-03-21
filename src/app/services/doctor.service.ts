@@ -26,4 +26,10 @@ export class DoctorService {
                                                 "&searchText=" + searchText + "&orderColumn=" + orderColumn + "&isIncrease=" + isIncrease)
 
   }
+
+  addDoctor(doctor: Doctor)
+  {
+    return this.http.post<any>(this.baseApiUrl + "admin/add-doctor", doctor);
+  }
+
 }
