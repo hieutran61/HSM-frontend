@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgToastModule } from 'ng-angular-popup'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { AddDoctorComponent } from './components/doctor/add-doctor/add-doctor.co
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    NgToastModule
 
 
   ],
