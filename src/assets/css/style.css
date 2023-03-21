@@ -1,6 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
 /********** Template CSS **********/
-
 :root {
     --primary: #13C5DD;
     --secondary: #354F8E;
@@ -99,10 +97,9 @@
 }
 
 .hero-header {
-  background: url(assets/img/hero.jpg) top right no-repeat;
-  background-size: cover;
+    background: url(../img/hero.jpg) top right no-repeat;
+    background-size: cover;
 }
-
 
 .service-item {
     position: relative;

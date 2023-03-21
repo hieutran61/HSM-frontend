@@ -7,10 +7,14 @@ import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { AddDoctorComponent } from './components/doctor/add-doctor/add-doctor.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomepageComponent,
+    AddDoctorComponent
   ],
   imports: [
     BrowserModule,
