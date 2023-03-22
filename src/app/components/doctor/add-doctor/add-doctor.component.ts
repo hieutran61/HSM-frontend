@@ -169,7 +169,15 @@ export class AddDoctorComponent implements OnInit {
   }
 
   addDoctor() {
-    this.doctor.modifyTime = new Date().toLocaleString();
+    this.doctor.modifyTime = new Date().toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true
+    });
 
     if (this.addDoctorForm.valid && !this.isUsernameExist) {
       //call service
@@ -189,6 +197,7 @@ export class AddDoctorComponent implements OnInit {
       this.toast.error({ detail: "Error", summary: "Invalid field", duration: 1000 });
       this.validateAllFormFields(this.addDoctorForm);
     }
+
   }
 
   cancel() {
