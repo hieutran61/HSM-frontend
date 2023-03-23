@@ -12,12 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { AddDoctorComponent } from './components/doctor/add-doctor/add-doctor.component';
+import { ListDoctorComponent } from './components/doctor/list-doctor/list-doctor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    AddDoctorComponent
+    AddDoctorComponent,
+    ListDoctorComponent
   ],
   imports: [
     BrowserModule,

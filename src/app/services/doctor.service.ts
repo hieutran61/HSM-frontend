@@ -21,9 +21,9 @@ export class DoctorService {
     return this.http.get<Doctor>(this.baseApiUrl + "get-doctor-username/" + username);
   }
 
-  getDoctorsPage(pageSize: Number, pageNum: Number, searchText: string, orderColumn: string, isIncrease: boolean){
+  getDoctorsPage(pageSize: Number, pageNum: Number, searchText: string, orderColumn: string, sort: string){
     return this.http.get<any>(this.baseApiUrl + "list-doctor/page?pageSize=" + pageSize + "&pageNum=" + pageNum +
-                                                "&searchText=" + searchText + "&orderColumn=" + orderColumn + "&isIncrease=" + isIncrease)
+                                                "&searchText=" + searchText + "&orderColumn=" + orderColumn + "&sort=" + sort)
 
   }
 
