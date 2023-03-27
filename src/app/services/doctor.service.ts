@@ -32,4 +32,12 @@ export class DoctorService {
     return this.http.post<any>(this.baseApiUrl + "admin/add-doctor", doctor);
   }
 
+  deleteDoctor(docId: number){
+    return this.http.get<Doctor>(this.baseApiUrl + "list-doctor/delete/" + docId);
+  }
+
+  getDoctorById(docId: number){
+    return this.http.get<Doctor>(this.baseApiUrl + "list-doctor/" + docId);
+  }
+
 }

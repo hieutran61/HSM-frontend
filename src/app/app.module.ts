@@ -13,13 +13,15 @@ import { AppComponent } from './app.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { AddDoctorComponent } from './components/doctor/add-doctor/add-doctor.component';
 import { ListDoctorComponent } from './components/doctor/list-doctor/list-doctor.component';
+import { UpdateDoctorComponent } from './components/doctor/update-doctor/update-doctor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     AddDoctorComponent,
-    ListDoctorComponent
+    ListDoctorComponent,
+    UpdateDoctorComponent
   ],
   imports: [
     BrowserModule,
