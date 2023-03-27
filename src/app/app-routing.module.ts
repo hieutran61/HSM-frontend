@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'admin/list-doctor',
     component: ListDoctorComponent
   },
+  {
+    path: 'admin/list-doctor/update',
+    component: ListDoctorComponent
+  },
 ];
 
 @NgModule({
