@@ -142,18 +142,18 @@ export class AddDoctorComponent implements OnInit {
   }
 
   checkUsername() {
-    // if (this.doctor.username != "") {
-    //   this.admin.getUserByUsername(this.doctor.username).subscribe({
-    //     next: (res) => {
-    //       console.log(res != null)
-    //       this.isUsernameExist = (res != null)
-    //     },
-    //     error: (res) => {
-    //       console.log(res)
-    //     }
-    //   })
-    // }
-    // else this.isUsernameExist = false;
+    if (this.doctor.username != "") {
+      this.doctorService.getUserByUsername(this.doctor.username).subscribe({
+        next: (res) => {
+          console.log(res != null)
+          this.isUsernameExist = (res != null)
+        },
+        error: (res) => {
+          console.log(res)
+        }
+      })
+    }
+    else this.isUsernameExist = false;
   }
 
   private validateAllFormFields(form: FormGroup) {
@@ -185,7 +185,7 @@ export class AddDoctorComponent implements OnInit {
         next: (res) => {
           this.toast.success({ detail: "Success", summary: "Add new doctor successfully", duration: 5000 });
           console.log(res);
-          // this.router.navigate(['admin/list-doctor']);
+          this.router.navigate(['admin/list-doctor']);
         },
         error: (res) => {
           this.toast.error({ detail: "Error", summary: "Something wrong", duration: 5000 });

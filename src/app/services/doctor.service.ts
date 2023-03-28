@@ -40,4 +40,12 @@ export class DoctorService {
     return this.http.get<Doctor>(this.baseApiUrl + "list-doctor/" + docId);
   }
 
+  getUserByUsername(username: String){
+    return this.http.get<Doctor>(this.baseApiUrl + "list-doctor/?username=" + username);
+  }
+
+  updateDoctor(updateDoctor: Doctor){
+    return this.http.post<any>(this.baseApiUrl + "list-doctor/update", updateDoctor);
+  }
+
 }
