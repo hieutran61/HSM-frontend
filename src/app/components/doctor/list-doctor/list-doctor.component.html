@@ -1,137 +1,144 @@
 <div class="container" style="margin-top: 20px;">
 
+   <div class="row">
+      <div class="col-auto">
+        <a class="btn btn-primary" routerLink="/admin/add-doctor" style="margin-bottom: 10px;">Add new Doctor</a>
+      </div>
+      <div class="col-auto">
+        <input type="file" class="form-control" (change)="readExcel($event)" id="customFile" multiple="false" />
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary" (click)="uploadExcel()" disabled *ngIf="!isChooseFile">Import</button>
+        <button class="btn btn-primary" (click)="uploadExcel()" *ngIf="isChooseFile">Import</button>
+        <!-- <button class="btn btn-primary" (click)="uploadExcel()" disabled>Import</button> -->
 
-  <a class="btn btn-primary" routerLink="/admin/add-doctor" style="margin-bottom: 10px;">Add new Doctor</a>
-  <div class="row">
+      </div>
+   </div>
+   <div class="row">
       <div class="col-md-1" style="display: flex;">
-          <select class="form-select" name="recordPerPage" [(ngModel)]="recordPerPage"
-              (change)="changeRecordPerPage()">
-              <option value="6">6</option>
-              <option value="8">8</option>
-              <option value="10">10</option>
-          </select>
+         <select class="form-select" name="recordPerPage" [(ngModel)]="recordPerPage" (change)="changeRecordPerPage()">
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+         </select>
       </div>
       <div class="col">
-          <div class="form-group" style="display: flex;">
-              <input type="text" class="form-control" name="searchText" placeholder="Search"
-                  style="margin-right: 10px; " [(ngModel)]="searchText" (keyup)="checkChange()">
-          </div>
+         <div class="form-group" style="display: flex;">
+            <input type="text" class="form-control" name="searchText" placeholder="Search" style="margin-right: 10px; "
+               [(ngModel)]="searchText" (keyup)="checkChange()">
+         </div>
 
       </div>
-  </div>
-  <table class="table table-sm table-info table-hover align-middle" style="margin-top: 10px;">
+   </div>
+   <table class="table table-sm table-info table-hover align-middle" style="margin-top: 10px;">
       <thead>
-          <tr class="table-primary" style="cursor: pointer;">
-              <th scope="col" (click)="sort('name')">Name <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='name'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='name'"
-                      class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('username')">Username <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='username'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i
-                      *ngIf="!columnSort.isIncrease && columnSort.colName=='username'" class="fas fa-sort-down"
-                      style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('department')">Department <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='department'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i
-                      *ngIf="!columnSort.isIncrease && columnSort.colName=='department'" class="fas fa-sort-down"
-                      style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('specialization')">Specialization <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='specialization'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i
-                      *ngIf="!columnSort.isIncrease && columnSort.colName=='specialization'" class="fas fa-sort-down"
-                      style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('phone')">Phone <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='phone'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='phone'"
-                      class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('address')">Address <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='address'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i
-                      *ngIf="!columnSort.isIncrease && columnSort.colName=='address'" class="fas fa-sort-down"
-                      style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('email')">Email <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='email'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='email'"
-                      class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
-              <th scope="col" (click)="sort('modifyTime')" style="text-align: center;">Modification Time <i
-                      *ngIf="columnSort.isIncrease && columnSort.colName=='modifyTime'" class="fas fa-sort-up"
-                      style="margin-left: 10%;"></i> <i
-                      *ngIf="!columnSort.isIncrease && columnSort.colName=='modifyTime'" class="fas fa-sort-down"
-                      style="margin-left: 10%;"></i> </th>
-              <th scope="col text-center" style="text-align: center;">Action </th>
-          </tr>
+         <tr class="table-primary" style="cursor: pointer;">
+            <th scope="col" (click)="sort('name')">Name <i *ngIf="columnSort.isIncrease && columnSort.colName=='name'"
+                  class="fas fa-sort-up" style="margin-left: 10%;"></i> <i
+                  *ngIf="!columnSort.isIncrease && columnSort.colName=='name'" class="fas fa-sort-down"
+                  style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('username')">Username <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='username'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='username'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('department')">Department <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='department'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='department'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('specialization')">Specialization <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='specialization'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i
+                  *ngIf="!columnSort.isIncrease && columnSort.colName=='specialization'" class="fas fa-sort-down"
+                  style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('phone')">Phone <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='phone'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='phone'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('address')">Address <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='address'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='address'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('email')">Email <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='email'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='email'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col" (click)="sort('modifyTime')" style="text-align: center;">Modification Time <i
+                  *ngIf="columnSort.isIncrease && columnSort.colName=='modifyTime'" class="fas fa-sort-up"
+                  style="margin-left: 10%;"></i> <i *ngIf="!columnSort.isIncrease && columnSort.colName=='modifyTime'"
+                  class="fas fa-sort-down" style="margin-left: 10%;"></i> </th>
+            <th scope="col text-center" style="text-align: center;">Action </th>
+         </tr>
       </thead>
       <tbody *ngFor="let doctor of filterDoctors">
-          <tr>
-              <!-- <tr *ngIf="filterDoctors.indexOf(doctor)>=recordPerPage*(page-1) && filterDoctors.indexOf(doctor)<=(recordPerPage*page-1)"> -->
-              <td>{{doctor.name}}</td>
-              <td>{{doctor.username}}</td>
-              <td>{{doctor.department}}</td>
-              <td>{{doctor.specialization}}</td>
-              <td>{{doctor.phone}}</td>
-              <td>{{doctor.address}}</td>
-              <td>{{doctor.email}}</td>
-              <td style="text-align: center;">
-                  {{formatDatetime(doctor.modifyTime).time}} <br>
-                  {{formatDatetime(doctor.modifyTime).date}}
-              </td>
-              <td style="text-align: center;">
+         <tr>
+            <!-- <tr *ngIf="filterDoctors.indexOf(doctor)>=recordPerPage*(page-1) && filterDoctors.indexOf(doctor)<=(recordPerPage*page-1)"> -->
+            <td>{{doctor.name}}</td>
+            <td>{{doctor.username}}</td>
+            <td>{{doctor.department}}</td>
+            <td>{{doctor.specialization}}</td>
+            <td>{{doctor.phone}}</td>
+            <td>{{doctor.address}}</td>
+            <td>{{doctor.email}}</td>
+            <td style="text-align: center;">
+               {{formatDatetime(doctor.modifyTime).time}} <br>
+               {{formatDatetime(doctor.modifyTime).date}}
+            </td>
+            <td style="text-align: center;">
 
-                  <a type="button" class="btn btn-info" id="example"
-                      routerLink="/admin/list-doctor/{{doctor.docId}}" title="Update">
-                      <i class="fas fa-info-circle fa-2x"></i>
-                  </a>
+               <a type="button" class="btn btn-info" id="example" routerLink="/admin/list-doctor/{{doctor.docId}}"
+                  title="Update">
+                  <i class="fas fa-info-circle fa-2x"></i>
+               </a>
 
-                  <button class="btn btn-danger ml-10" style="margin-left: 10px;"
-                      (click)="deleteDoctor(doctor.docId)"><i class="far fa-trash-alt fa-2x" title="Delete"></i>
-                  </button>
-              </td>
-          </tr>
+               <button class="btn btn-danger ml-10" style="margin-left: 10px;" (click)="deleteDoctor(doctor.docId)"><i
+                     class="far fa-trash-alt fa-2x" title="Delete"></i>
+               </button>
+            </td>
+         </tr>
 
       </tbody>
-  </table>
+   </table>
 
-  <div class="row">
+   <div class="row">
       <div class="col-md-1">
-          <p><u>{{totalRecord}} Doctor</u></p>
+         <p><u>{{totalRecord}} Doctor</u></p>
       </div>
       <div class="col-10">
-          <!-- Paginate -->
-          <nav aria-label="...">
-              <ul class="pagination pagination-circle justify-content-center">
-                  <li class="page-item" style="display: flex;">
-                      <button class="page-link" aria-label="Previous" (click)="changePage(page-1)">
-                          <i class="fas fa-angle-left"></i>
-                      </button>
-                      <i *ngIf="head!=1" class="fas fa-ellipsis-h" style="margin-top: 14px; margin-right: 5px;"></i>
+         <!-- Paginate -->
+         <nav aria-label="...">
+            <ul class="pagination pagination-circle justify-content-center">
+               <li class="page-item" style="display: flex;">
+                  <button class="page-link" aria-label="Previous" (click)="changePage(page-1)">
+                     <i class="fas fa-angle-left"></i>
+                  </button>
+                  <i *ngIf="head!=1" class="fas fa-ellipsis-h" style="margin-top: 14px; margin-right: 5px;"></i>
+               </li>
+               <div *ngFor="let item of pages">
+                  <li *ngIf="item==page" class="page-item active" aria-current="page">
+                     <button class="page-link" (click)="changePage(item)">{{item}} <span
+                           class="visually-hidden">(current)</span></button>
                   </li>
-                  <div *ngFor="let item of pages">
-                      <li *ngIf="item==page" class="page-item active" aria-current="page">
-                          <button class="page-link" (click)="changePage(item)">{{item}} <span
-                                  class="visually-hidden">(current)</span></button>
-                      </li>
-                      <li *ngIf="item!=page" class="page-item ">
-                          <button class="page-link" (click)="changePage(item)">{{item}}</button>
-                      </li>
-                  </div>
-
-                  <li class="page-item" style="display: flex;">
-                      <i *ngIf="tail != numOfPages" class="fas fa-ellipsis-h"
-                          style="margin-top: 14px; margin-left: 5px;"></i>
-                      <button class="page-link" aria-label="Next" (click)="changePage(page+1)">
-                          <i class="fas fa-angle-right"></i>
-                      </button>
-
+                  <li *ngIf="item!=page" class="page-item ">
+                     <button class="page-link" (click)="changePage(item)">{{item}}</button>
                   </li>
-              </ul>
-          </nav>
+               </div>
+
+               <li class="page-item" style="display: flex;">
+                  <i *ngIf="tail != numOfPages" class="fas fa-ellipsis-h"
+                     style="margin-top: 14px; margin-left: 5px;"></i>
+                  <button class="page-link" aria-label="Next" (click)="changePage(page+1)">
+                     <i class="fas fa-angle-right"></i>
+                  </button>
+
+               </li>
+            </ul>
+         </nav>
       </div>
       <div class="col-md-1">
 
       </div>
 
-  </div>
+   </div>
 
 
 </div>
