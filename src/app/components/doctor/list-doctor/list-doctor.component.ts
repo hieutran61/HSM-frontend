@@ -113,12 +113,6 @@ export class ListDoctorComponent implements OnInit {
 
     }
 
-    searchData(name: string | null, username: string | null, department: string | null, specialization: string | null, phone: string | null, address: string | null, email: string | null) {
-        this.searchText = this.searchText.trim().toLowerCase();
-        return name?.toLowerCase().includes(this.searchText) || username?.toLowerCase().includes(this.searchText) || department?.toLowerCase().includes(this.searchText) ||
-            specialization?.toLowerCase().includes(this.searchText) || phone?.toLowerCase().includes(this.searchText) || address?.toLowerCase().includes(this.searchText) || email?.toLowerCase().includes(this.searchText);
-    }
-
     checkChange() {
         this.ngOnInit();
     }
@@ -197,6 +191,28 @@ export class ListDoctorComponent implements OnInit {
                 }
             })
         else this.toast.error({ detail: "Error", summary: "Something wrong", duration: 2000 });
+    }
+
+    exportToExcel(){
+        this.doctorService.getListBySearch(this.searchText).subscribe({
+            next: (res) => {
+                let element = res;
+                element.forEach(e => {
+                    delete e.password;
+                    delete e.isActive;
+                });
+
+                const workSheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
+                const workBook: XLSX.WorkBook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workBook, workSheet, "Sheet1");
+                XLSX.writeFile(workBook, "DoctorList.xlsx");
+            },
+            error: (res) => {
+                this.toast.error({ detail: "Error", summary: "Something wrong", duration: 5000 });
+                console.log(res);
+            }
+        })
+
     }
 
 }

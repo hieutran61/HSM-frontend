@@ -197,7 +197,6 @@ export class AddDoctorComponent implements OnInit {
       this.toast.error({ detail: "Error", summary: "Invalid field", duration: 1000 });
       this.validateAllFormFields(this.addDoctorForm);
     }
-
   }
 
   cancel() {

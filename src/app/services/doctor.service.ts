@@ -64,4 +64,8 @@ export class DoctorService {
         return this.http.post<any>(this.baseApiUrl + "admin/add-doctor-excel", excelData);
     }
 
+    getListBySearch(searchText: string){
+        return this.http.get<Doctor[]>(this.baseApiUrl + "list-doctor-by-search/?searchText=" + searchText);
+    }
+
 }
