@@ -1,0 +1,99 @@
+<div class="row">
+
+   <div class="col-auto">
+      <input type="file" class="form-control" (change)="readExcel($event)" id="customFile" multiple="false" />
+   </div>
+
+   <!-- Button trigger modal, which is hidden -->
+   <button id="openModalButton" [hidden]="true" type="button" class="btn btn-primary" data-mdb-toggle="modal"
+      data-mdb-target="#exampleModal">
+      Launch demo modal
+   </button>
+
+   <!-- Modal -->
+   <div #myModal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl fixed-bottom">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Excel data</h5>
+               <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+               <table class="table table-sm table-info table-hover align-middle" style="margin-top: 10px;">
+                  <thead>
+                     <tr class="table-primary" style="cursor: pointer;">
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Specialization </th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Email</th>
+                     </tr>
+                  </thead>
+                  <tbody *ngFor="let doctor of excelData, let i = index">
+                     <tr *ngIf="excelData.indexOf(doctor)>=recordPerPage*(page-1) && excelData.indexOf(doctor)<=(recordPerPage*page-1)">
+                        <td>{{i+1}}</td>
+                        <td>{{doctor.name}}</td>
+                        <td>{{doctor.username}}</td>
+                        <td>{{doctor.department}}</td>
+                        <td>{{doctor.specialization}}</td>
+                        <td>{{doctor.phone}}</td>
+                        <td>{{doctor.address}}</td>
+                        <td>{{doctor.email}}</td>
+
+                     </tr>
+
+                  </tbody>
+               </table>
+
+               <div class="row">
+                  <div class="col-md-1">
+                     <p><u>{{totalRecord}} Doctor</u></p>
+                  </div>
+                  <div class="col-10">
+                     <!-- Paginate -->
+                     <nav aria-label="...">
+                        <ul class="pagination pagination-circle justify-content-center">
+                           <li class="page-item" style="display: flex;">
+                              <button class="page-link" aria-label="Previous" (click)="changePage(page-1)">
+                                 <i class="fas fa-angle-left"></i>
+                              </button>
+                              <i *ngIf="head!=1" class="fas fa-ellipsis-h" style="margin-top: 14px; margin-right: 5px;"></i>
+                           </li>
+                           <div *ngFor="let item of pages">
+                              <li *ngIf="item==page" class="page-item active" aria-current="page">
+                                 <button class="page-link" (click)="changePage(item)">{{item}} <span
+                                       class="visually-hidden">(current)</span></button>
+                              </li>
+                              <li *ngIf="item!=page" class="page-item ">
+                                 <button class="page-link" (click)="changePage(item)">{{item}}</button>
+                              </li>
+                           </div>
+
+                           <li class="page-item" style="display: flex;">
+                              <i *ngIf="tail != numOfPages" class="fas fa-ellipsis-h"
+                                 style="margin-top: 14px; margin-left: 5px;"></i>
+                              <button class="page-link" aria-label="Next" (click)="changePage(page+1)">
+                                 <i class="fas fa-angle-right"></i>
+                              </button>
+
+                           </li>
+                        </ul>
+                     </nav>
+                  </div>
+
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+               <button class="btn btn-primary" (click)="uploadExcel()" data-mdb-dismiss="modal">Import</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>

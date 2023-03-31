@@ -2,22 +2,18 @@
 
    <div class="row">
       <div class="col-auto">
-        <a class="btn btn-primary" routerLink="/admin/add-doctor" style="margin-bottom: 10px;">Add new Doctor</a>
+         <a class="btn btn-primary" routerLink="/admin/add-doctor" style="margin-bottom: 10px;">Add new Doctor</a>
       </div>
       <div class="col-auto">
-        <input type="file" class="form-control" (change)="readExcel($event)" id="customFile" multiple="false" />
+        <app-modal-doctor (reloadEvent)="ngOnInit()"></app-modal-doctor>
       </div>
-      <div class="col-auto">
-        <button class="btn btn-primary" (click)="uploadExcel()" disabled *ngIf="!isChooseFile">Import</button>
-        <button class="btn btn-primary" (click)="uploadExcel()" *ngIf="isChooseFile">Import</button>
-        <!-- <button class="btn btn-primary" (click)="uploadExcel()" disabled>Import</button> -->
-      </div>
+
       <div class="col-auto">
          <button class="btn btn-primary" (click)="exportToExcel()">Export</button>
-      </div>
+       </div>
+
    </div>
    <div class="row">
-
       <div class="col">
          <div class="form-group" style="display: flex;">
             <input type="text" class="form-control" name="searchText" placeholder="Search" style="margin-right: 10px; "
@@ -132,11 +128,11 @@
       </div>
       <div class="col-auto" style="display: flex;">
 
-            <select class="form-select" name="recordPerPage" [(ngModel)]="recordPerPage" (change)="changeRecordPerPage()">
-               <option value="6">6</option>
-               <option value="8">8</option>
-               <option value="10">10</option>
-            </select>
+         <select class="form-select" name="recordPerPage" [(ngModel)]="recordPerPage" (change)="changeRecordPerPage()">
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+         </select>
 
       </div>
 

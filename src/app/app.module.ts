@@ -14,6 +14,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { AddDoctorComponent } from './components/doctor/add-doctor/add-doctor.component';
 import { ListDoctorComponent } from './components/doctor/list-doctor/list-doctor.component';
 import { UpdateDoctorComponent } from './components/doctor/update-doctor/update-doctor.component';
+import { ModalDoctorComponent } from './components/doctor/modal-doctor/modal-doctor.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { UpdateDoctorComponent } from './components/doctor/update-doctor/update-
     HomepageComponent,
     AddDoctorComponent,
     ListDoctorComponent,
-    UpdateDoctorComponent
+    UpdateDoctorComponent,
+    ModalDoctorComponent
   ],
   imports: [
     BrowserModule,

@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import * as XLSX from 'xlsx';
+import * as jQuery from 'jquery';
+import * as bootstrap from "bootstrap";
 
-
+declare var $: any;
 @Component({
     selector: 'app-list-doctor',
     templateUrl: './list-doctor.component.html',
     styleUrls: ['./list-doctor.component.css']
 })
 export class ListDoctorComponent implements OnInit {
+    @ViewChild('myModal') myModal: ElementRef | undefined;
     private sortBy: string = "";
 
     searchText: string = "";
@@ -39,16 +42,13 @@ export class ListDoctorComponent implements OnInit {
         isIncrease: false
     }
 
-    excelData: Doctor[] = [];
 
-    isChooseFile: boolean = false;
 
 
     constructor(private router: Router, private toast: NgToastService, private route: ActivatedRoute,
         private doctorService: DoctorService) { }
 
     ngOnInit(): void {
-        console.log(this.excelData.length)
 
         this.doctorService.getDoctorsPage(this.recordPerPage, this.page, this.searchText, this.columnSort.colName, this.columnSort.isIncrease ? "asc" : "desc").subscribe({
             next: (res) => {
@@ -155,45 +155,7 @@ export class ListDoctorComponent implements OnInit {
         this.ngOnInit();
     }
 
-    readExcel(event: any) {
-
-        if (event.target.files.length !== 1) throw new Error('Cannot use multiple files');
-
-        let file = event.target.files[0];
-
-        let fileReader = new FileReader();
-        fileReader.readAsBinaryString(file);
-
-        fileReader.onload = (e: any) => {
-            var binaryString = e.target.result;
-            var workBook = XLSX.read(binaryString, { type: 'binary' });
-            var sheetName = workBook.SheetNames[0];
-            var workSheet = workBook.Sheets[sheetName];
-            this.excelData = XLSX.utils.sheet_to_json(workSheet);
-            console.log(this.excelData);
-        }
-
-        this.isChooseFile = true;
-
-    }
-
-    uploadExcel() {
-        if (this.isChooseFile)
-            this.doctorService.importFromExcel(this.excelData).subscribe({
-                next: (res) => {
-                    this.toast.success({ detail: "Success", summary: "Add new doctor successfully", duration: 5000 });
-                    console.log(res);
-                    this.ngOnInit();
-                },
-                error: (res) => {
-                    this.toast.error({ detail: "Error", summary: "Something wrong", duration: 5000 });
-                    console.log(res);
-                }
-            })
-        else this.toast.error({ detail: "Error", summary: "Something wrong", duration: 2000 });
-    }
-
-    exportToExcel(){
+    exportToExcel() {
         this.doctorService.getListBySearch(this.searchText).subscribe({
             next: (res) => {
                 let element = res;
@@ -214,5 +176,6 @@ export class ListDoctorComponent implements OnInit {
         })
 
     }
+
 
 }
