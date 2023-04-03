@@ -13,13 +13,18 @@
    <!-- Modal -->
    <div #myModal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-xl fixed-bottom">
+      <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLabel">Excel data</h5>
                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+               <div *ngFor="let error of errorList">
+                  Error at record no. {{error.no}}: {{error.error}}
+               </div>
+            </div>
+            <div class="container" style="padding: 16px; padding-bottom: 0px;">
 
                <table class="table table-sm table-info table-hover align-middle" style="margin-top: 10px;">
                   <thead>
@@ -35,7 +40,8 @@
                      </tr>
                   </thead>
                   <tbody *ngFor="let doctor of excelData, let i = index">
-                     <tr *ngIf="excelData.indexOf(doctor)>=recordPerPage*(page-1) && excelData.indexOf(doctor)<=(recordPerPage*page-1)">
+                     <tr
+                        *ngIf="excelData.indexOf(doctor)>=recordPerPage*(page-1) && excelData.indexOf(doctor)<=(recordPerPage*page-1)">
                         <td>{{i+1}}</td>
                         <td>{{doctor.name}}</td>
                         <td>{{doctor.username}}</td>
@@ -51,7 +57,7 @@
                </table>
 
                <div class="row">
-                  <div class="col-md-1">
+                  <div class="col-auto">
                      <p><u>{{totalRecord}} Doctor</u></p>
                   </div>
                   <div class="col-10">
@@ -62,7 +68,8 @@
                               <button class="page-link" aria-label="Previous" (click)="changePage(page-1)">
                                  <i class="fas fa-angle-left"></i>
                               </button>
-                              <i *ngIf="head!=1" class="fas fa-ellipsis-h" style="margin-top: 14px; margin-right: 5px;"></i>
+                              <i *ngIf="head!=1" class="fas fa-ellipsis-h"
+                                 style="margin-top: 14px; margin-right: 5px;"></i>
                            </li>
                            <div *ngFor="let item of pages">
                               <li *ngIf="item==page" class="page-item active" aria-current="page">
@@ -88,6 +95,7 @@
 
                </div>
             </div>
+
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
                <button class="btn btn-primary" (click)="uploadExcel()" data-mdb-dismiss="modal">Import</button>

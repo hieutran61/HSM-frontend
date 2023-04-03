@@ -14,8 +14,6 @@ declare var $: any;
     styleUrls: ['./list-doctor.component.css']
 })
 export class ListDoctorComponent implements OnInit {
-    @ViewChild('myModal') myModal: ElementRef | undefined;
-    private sortBy: string = "";
 
     searchText: string = "";
 
