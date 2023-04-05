@@ -60,7 +60,6 @@ export class DoctorService {
             });
             doc.isActive = true;
         }
-        console.log(excelData)
         return this.http.post<any>(this.baseApiUrl + "admin/add-doctor-excel", excelData);
     }
 
