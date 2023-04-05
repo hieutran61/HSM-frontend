@@ -16,6 +16,7 @@ export class ModalDoctorComponent implements OnInit {
    @Output() reloadEvent = new EventEmitter<any>();
 
    excelData: Doctor[] = [];
+   filterData: Doctor[] = [];
    page: number = 1;
    pages: number[] = [];
    head: number = 1;
@@ -62,18 +63,39 @@ export class ModalDoctorComponent implements OnInit {
          this.countPages();
          /* validate excel fields */
          this.validateExcelField();
-         console.log('Error List: ' + this.errorList.at(0)?.error)
+         console.log('Error List: ' + this.errorList.forEach(value => value.no))
       }
 
       document.getElementById("openModalButton")?.click();
-      this.ngOnInit();
    }
 
    uploadExcel() {
-      this.doctorService.importFromExcel(this.excelData).subscribe({
+      /* check if excel file has no record */
+      if (this.excelData == null || this.excelData.length == 0) {
+         this.toast.error({ detail: "Error", summary: "Cannot import empty data", duration: 3000 });
+         return;
+      }
+
+      /* check if validate fields of excel file has error */
+      if (this.errorList.length != 0){
+         this.toast.error({ detail: "Error", summary: "Some field need to be checked", duration: 3000 });
+         return;
+      }
+
+      /* get the lastest value if has more one record duplicate  */
+      this.filterData = [];
+      this.excelData.reverse().forEach( doc => {
+         if (!this.filterData.find(d => (d.username == doc.username))) {
+            this.filterData.push(doc);
+         }
+
+      })
+      console.log("filter data: ", this.filterData);
+
+      /* call api to add into database  */
+      this.doctorService.importFromExcel(this.filterData).subscribe({
          next: (res) => {
             this.toast.success({ detail: "Success", summary: "Add new doctor successfully", duration: 5000 });
-            console.log(res);
 
             this.reloadEvent.emit();
          },
@@ -135,6 +157,7 @@ export class ModalDoctorComponent implements OnInit {
 
    validateExcelField() {
       let index = 1;
+      this.errorList = [];
 
       /* Loop for each row of excel (1 element of excelData) */
       this.excelData.forEach(row => {
@@ -185,7 +208,7 @@ export class ModalDoctorComponent implements OnInit {
          }
          else {
             // check Min and Max length
-            if (row.username.length > 500 || row.username.length < 2) {
+            if (row.username.length > 500 || (row.username.length < 2 && row.username.length > 0)) {
                var err = this.errorList.find(error => error.no == index)
                if (err) {
                   err.error += "Username must be at least 2 character and maximum 500 character, ";
@@ -205,23 +228,7 @@ export class ModalDoctorComponent implements OnInit {
                   this.errorList.push({ no: index, error: 'Username can only take alphabet, numberic and at least 2 character, ' });
                };
             };
-            //   check username exist?
-            this.doctorService.getUserByUsername(row.username).subscribe({
-               next: (res) => {
-                  if (res != null) { //res khac null --> Ton tai username trong database
-                     let err = this.errorList.find(error => error.no == index)
-                     if (err) {
-                        err.error += "Username is exist, ";
-                     }
-                     else {
-                        this.errorList.push({ no: index, error: 'Username is exist, ' });
-                     };
-                  }
-               },
-               error: (res) => {
-                  console.log(res)
-               }
-            })
+
          };
 
          /* Check if password is null, min length, max length */
